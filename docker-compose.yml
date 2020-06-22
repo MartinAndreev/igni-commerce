@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  webserver:
+    build:
+      context: ./build/php
+    container_name: "igni_commerce_apache"
+    restart: 'always'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html:rw
+      - ./build/php/php.ini:/usr/local/etc/php/php.ini
+      - ./build/ssl:/etc/apache2/ssl/
+      - ./build/apache2/website.conf:/etc/apache2/sites-enabled/website.conf
+  redis:
+    container_name: "igni_commerce_redis"
+    image: redis:latest
+    ports:
+      - "127.0.0.1:6379:6379"
